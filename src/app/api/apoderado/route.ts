@@ -1,12 +1,12 @@
-import { getSession } from '@/lib/auth'
+import { NextResponse } from 'next/server'
 import { supabaseAdmin } from '@/lib/supabase'
-import { redirect } from 'next/navigation'
-import MiCursoClient from './MiCursoClient'
+import { getSession } from '@/lib/auth'
 
-export default async function MiCursoPage() {
+export async function GET() {
   const session = await getSession()
-  if (!session || session.rol !== 'apoderado') redirect('/')
+  if (!session || session.rol !== 'apoderado') return NextResponse.json(null, { status: 401 })
 
+  // Hijos del apoderado con sus pagos y colectas
   const { data: relaciones } = await supabaseAdmin
     .from('alumno_apoderado')
     .select(`
@@ -14,16 +14,16 @@ export default async function MiCursoPage() {
       alumnos (
         id, nombre, apellido,
         cursos (
-          id, nombre, colegio,
+          id, nombre, colegio, codigo_unico,
           cuentas_bancarias (banco, tipo_cuenta, numero_cuenta, rut_titular, nombre_titular, email_notificacion)
         ),
         pagos (
           id, mes, monto, estado, comprobante_url, motivo_rechazo,
-          colectas (id, nombre, tipo, fecha_limite, estado)
+          colectas (id, nombre, tipo, fecha_limite)
         )
       )
     `)
     .eq('apoderado_id', session.apoderadoId)
 
-  return <MiCursoClient relaciones={(relaciones ?? []) as never} nombre={session.nombre} />
+  return NextResponse.json(relaciones ?? [])
 }
