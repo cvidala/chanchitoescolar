@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { UserPlus, Search, X, Plus, Trash2 } from 'lucide-react'
-import { formatRut } from '@/lib/utils'
+import { formatRut, formatTelefono } from '@/lib/utils'
 
 interface Apoderado { rut: string; nombre: string; telefono?: string }
 interface Alumno {
@@ -158,8 +158,8 @@ export default function AlumnosClient({ alumnos }: { alumnos: Alumno[] }) {
                     <input value={ap.rut} onChange={e => updateApoderado(i, 'rut', e.target.value)}
                       placeholder="RUT (12.345.678-9)" maxLength={12} className={inputClass} />
                     <div className="grid grid-cols-2 gap-2">
-                      <input value={ap.telefono} onChange={e => updateApoderado(i, 'telefono', e.target.value)}
-                        placeholder="Teléfono" className={inputClass} />
+                      <input value={ap.telefono} onChange={e => updateApoderado(i, 'telefono', formatTelefono(e.target.value))}
+                        placeholder="+569 1234 5678" maxLength={15} className={inputClass} />
                       <select value={ap.relacion} onChange={e => updateApoderado(i, 'relacion', e.target.value)}
                         className={inputClass}>
                         <option value="">Relación</option>
