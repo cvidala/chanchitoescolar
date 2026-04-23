@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import { Copy, Check, Upload, Loader2, CheckCircle, Clock, XCircle, LogOut } from 'lucide-react'
 import { formatMoney } from '@/lib/utils'
 import { MESES } from '@/constants'
+import AdBanner from '@/components/ui/AdBanner'
 
 
 interface CuentaBancaria { banco: string; tipo_cuenta: string; numero_cuenta: string; rut_titular: string; nombre_titular: string; email_notificacion?: string }
@@ -103,6 +104,8 @@ export default function MiCursoClient({ relaciones, nombre }: { relaciones: Rela
         <ResumenCard label="En revisión" count={enRevision.length} color="orange" />
         <ResumenCard label="Pagado" count={aprobados.length} color="green" />
       </div>
+
+      <AdBanner slot="0987654321" />
 
       {/* Pagos pendientes */}
       {pendientes.length > 0 && (

@@ -3,6 +3,7 @@
 import { formatMoney } from '@/lib/utils'
 import { TrendingUp, TrendingDown, Wallet, Users, Copy, Check } from 'lucide-react'
 import { useState } from 'react'
+import AdBanner from '@/components/ui/AdBanner'
 
 interface Colecta {
   id: string
@@ -86,6 +87,8 @@ export default function DashboardClient({
           color="red"
         />
       </div>
+
+      <AdBanner slot="1234567890" />
 
       {/* Pendientes de aprobación */}
       {pendientesAprobacion.length > 0 && (
